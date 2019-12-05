@@ -1,18 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { Routes, RouterModule } from '@angular/router';
+import { QuizzComponent } from './quizz/quizz.component';
+import { QuizzService } from './quizz.service';
+import { HttpClientModule } from '@angular/common/http';
+
+
+const appRoutes: Routes = [
+  { path: '', component: QuizzComponent }
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    QuizzComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    RouterModule.forRoot(appRoutes),
+    HttpClientModule
   ],
-  providers: [],
+  providers: [QuizzService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
