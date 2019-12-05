@@ -15,6 +15,9 @@ export class QuizzComponent implements OnInit {
   answer: string;
   found: boolean;
   hasNext = true;
+  showButton = true;
+  showQuestion = false;
+  reponseAAfficher = "";
 
   constructor(private myService: QuizzService) { }
 
@@ -24,11 +27,19 @@ export class QuizzComponent implements OnInit {
   }
 
   newGame() {
-    console.log(this.questions);
+    this.showButton = false;
+    this.showQuestion = true;
+    this.currentQuestion = this.questions[this.iQuestion];
+    this.currentQuestion.allQuestion.push(this.currentQuestion.FausseReponse[0][0]);
+    this.currentQuestion.allQuestion.push(this.currentQuestion.FausseReponse[0][1]);
+    this.currentQuestion.allQuestion.push(this.currentQuestion.FausseReponse[0][2]);
+    this.currentQuestion.allQuestion.push(this.currentQuestion.VraiQuestion);
+    this.currentQuestion.allQuestion = this.shuffle(this.currentQuestion.allQuestion);
   }
 
   loadNextQuestion() {
-
+    this.iQuestion ++;
+    this.currentQuestion = this.questions[this.iQuestion];
   }
 
   timeSpent() {
@@ -36,10 +47,22 @@ export class QuizzComponent implements OnInit {
   }
 
   answerGiven(answer: string) {
-
+    if (answer === this.currentQuestion.VraiQuestion.capitale) {
+      this.reponseAAfficher = 'bonne réponse';
+    } else {
+      this.reponseAAfficher = 'mauvais réponse, la bonne était : ' + this.currentQuestion.VraiQuestion.capitale;
+    }
   }
 
   showAnswer() {
 
+  }
+
+  private shuffle(a: DataJson[]): DataJson[] {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
   }
 }

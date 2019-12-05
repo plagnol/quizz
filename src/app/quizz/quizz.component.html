@@ -1,6 +1,14 @@
 <div class="container">
-  <div class="content text-center mt-3">
+
+  <div *ngIf="showButton" class="content text-center mt-3">
     <button class="btn btn-primary" (click)="newGame()" >Nouvelle partie</button>
+  </div>
+  <div *ngIf="showQuestion" class="text-center">
+      <h3>Quel est la capitale de {{currentQuestion.VraiQuestion.pays}}</h3>
+    <div class="row">
+      <button class="col-6"  *ngFor="let fRep of currentQuestion.allQuestion" (click)="answerGiven(fRep.capitale)">{{fRep.capitale}}</button>
+    </div>
+    <p>{{reponseAAfficher}}</p>
   </div>
 </div>
 
