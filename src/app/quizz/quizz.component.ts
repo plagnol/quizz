@@ -1,7 +1,7 @@
+import { Question } from './../shared/models/question.model';
 import { DataJson } from './../shared/models/dataJson.model';
 import { QuizzService } from './../quizz.service';
 import { Component, OnInit } from '@angular/core';
-import { Question } from '../shared/models/Question.model';
 
 @Component({
   selector: 'app-quizz',
@@ -17,16 +17,17 @@ export class QuizzComponent implements OnInit {
   hasNext = true;
   showButton = true;
   showQuestion = false;
-  reponseAAfficher = "";
+  reponseAAfficher = '';
+  afficherNextButton = false;
 
   constructor(private myService: QuizzService) { }
 
   ngOnInit() {
     this.questions = this.myService.buildNewQuiz();
-
   }
 
   newGame() {
+
     this.showButton = false;
     this.showQuestion = true;
     this.currentQuestion = this.questions[this.iQuestion];
@@ -39,7 +40,14 @@ export class QuizzComponent implements OnInit {
 
   loadNextQuestion() {
     this.iQuestion ++;
+    this.afficherNextButton = false;
+    this.reponseAAfficher = '';
     this.currentQuestion = this.questions[this.iQuestion];
+    this.currentQuestion.allQuestion.push(this.currentQuestion.FausseReponse[0][0]);
+    this.currentQuestion.allQuestion.push(this.currentQuestion.FausseReponse[0][1]);
+    this.currentQuestion.allQuestion.push(this.currentQuestion.FausseReponse[0][2]);
+    this.currentQuestion.allQuestion.push(this.currentQuestion.VraiQuestion);
+    this.currentQuestion.allQuestion = this.shuffle(this.currentQuestion.allQuestion);
   }
 
   timeSpent() {
@@ -52,6 +60,13 @@ export class QuizzComponent implements OnInit {
     } else {
       this.reponseAAfficher = 'mauvais réponse, la bonne était : ' + this.currentQuestion.VraiQuestion.capitale;
     }
+    if (this.iQuestion === this.questions.length - 1) {
+      this.reponseAAfficher += ' Fin du quizz';
+      this.afficherRecommencer = true;
+    } else{
+      this.afficherNextButton = true;
+    }
+
   }
 
   showAnswer() {

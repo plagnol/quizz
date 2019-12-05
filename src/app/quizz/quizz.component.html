@@ -6,9 +6,10 @@
   <div *ngIf="showQuestion" class="text-center">
       <h3>Quel est la capitale de {{currentQuestion.VraiQuestion.pays}}</h3>
     <div class="row">
-      <button class="col-6"  *ngFor="let fRep of currentQuestion.allQuestion" (click)="answerGiven(fRep.capitale)">{{fRep.capitale}}</button>
+      <button class="col-6 btn-primary"  *ngFor="let fRep of currentQuestion.allQuestion" (click)="answerGiven(fRep.capitale)">{{fRep.capitale}}</button>
     </div>
     <p>{{reponseAAfficher}}</p>
+    <button class="btn btn-primary" width="100%" *ngIf="afficherNextButton" (click)="loadNextQuestion()">Prochaine question</button>
   </div>
 </div>
 
